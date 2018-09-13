@@ -338,8 +338,15 @@ class OcmController extends Controller {
 						$providerId, $notification['sharedSecret']
 					);
 					// TODO: permissions not needed ???
-					$this->fedShareManager->reShare(
+					$share = $this->fedShareManager->reShare(
 						$share, $providerId, $localShareWith, 0
+					);
+					return new JSONResponse(
+						[
+							'sharedSecret' => $share->getToken(),
+							'providerId' => $share->getId()
+						],
+						Http::STATUS_CREATED
 					);
 					break;
 				case FileNotification::NOTIFICATION_TYPE_RESHARE_CHANGE_PERMISSION:

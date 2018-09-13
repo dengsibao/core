@@ -143,7 +143,7 @@ class DiscoveryManager {
 		// Default response body
 		$discoveredServices = [
 			'webdav' => '/public.php/webdav',
-			'share' => '/index.php/apps/federatedfilesharing',
+			'ocm' => '/index.php/apps/federatedfilesharing',
 		];
 
 		if (\defined('PHPUNIT_RUN') && !$this->underTest) {
@@ -158,7 +158,7 @@ class DiscoveryManager {
 			if ($response->getStatusCode() === 200) {
 				$decodedService = \json_decode($response->getBody(), true);
 				if (\is_array($decodedService)) {
-					$discoveredServices['share'] = $decodedService['endPoint'];
+					$discoveredServices['ocm'] = $decodedService['endPoint'];
 					$shareTypes = $discoveredServices['shareTypes'];
 					foreach ($shareTypes as $type) {
 						if ($type['name']=='file') {
@@ -204,7 +204,7 @@ class DiscoveryManager {
 	}
 
 	public function getOcmShareEndPoint($host) {
-		\OC::$server->getLogger()->warning("{$this->ocmDiscover($host)['share']}");
-		return $this->ocmDiscover($host)['share'] . '/shares';
+		\OC::$server->getLogger()->warning("{$this->ocmDiscover($host)['ocm']}");
+		return $this->ocmDiscover($host)['ocm'];
 	}
 }
